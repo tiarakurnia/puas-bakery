@@ -1,5 +1,5 @@
 /**
- * Route untuk Modul Produk
+ * Route untuk Modul Produk (Versi MySQL)
  * Endpoint: /api/produk
  */
 
@@ -9,8 +9,6 @@ const db = require('../config/database');
 
 /**
  * GET /api/produk
- * Mengambil semua produk yang aktif
- * Query params: search (opsional) untuk pencarian berdasarkan nama
  */
 router.get('/', async (req, res) => {
     try {
@@ -34,12 +32,11 @@ router.get('/', async (req, res) => {
 
 /**
  * GET /api/produk/:id
- * Mengambil satu produk berdasarkan ID
  */
 router.get('/:id', async (req, res) => {
     try {
         const { id } = req.params;
-        const [rows] = await db.execute('SELECT * FROM produk WHERE id = ? AND is_active = 1', [id]);
+        const [rows] = await db.query('SELECT * FROM produk WHERE id = ? AND is_active = 1', [id]);
 
         if (rows.length === 0) {
             return res.status(404).json({ success: false, message: 'Produk tidak ditemukan' });
@@ -53,30 +50,25 @@ router.get('/:id', async (req, res) => {
 
 /**
  * POST /api/produk
- * Menambah produk baru
- * Body: { nama_produk, harga, satuan }
  */
 router.post('/', async (req, res) => {
     try {
         const { nama_produk, harga, satuan = 'pcs' } = req.body;
 
-        // Validasi: nama produk wajib diisi
         if (!nama_produk || nama_produk.trim() === '') {
             return res.status(400).json({ success: false, message: 'Nama produk wajib diisi' });
         }
-
-        // Validasi: harga harus lebih dari 0
         if (!harga || harga <= 0) {
             return res.status(400).json({ success: false, message: 'Harga harus lebih dari 0' });
         }
 
-        // Cek apakah nama produk sudah ada
-        const [existing] = await db.execute('SELECT id FROM produk WHERE nama_produk = ? AND is_active = 1', [nama_produk.trim()]);
+        // Cek duplikasi
+        const [existing] = await db.query('SELECT id FROM produk WHERE nama_produk = ? AND is_active = 1', [nama_produk.trim()]);
         if (existing.length > 0) {
             return res.status(400).json({ success: false, message: 'Nama produk sudah ada' });
         }
 
-        const [result] = await db.execute(
+        const [result] = await db.query(
             'INSERT INTO produk (nama_produk, harga, satuan) VALUES (?, ?, ?)',
             [nama_produk.trim(), harga, satuan]
         );
@@ -93,32 +85,25 @@ router.post('/', async (req, res) => {
 
 /**
  * PUT /api/produk/:id
- * Mengubah data produk
- * Body: { nama_produk, harga, satuan }
  */
 router.put('/:id', async (req, res) => {
     try {
         const { id } = req.params;
         const { nama_produk, harga, satuan } = req.body;
 
-        // Cek apakah produk ada
-        const [existing] = await db.execute('SELECT * FROM produk WHERE id = ? AND is_active = 1', [id]);
+        const [existing] = await db.query('SELECT id FROM produk WHERE id = ? AND is_active = 1', [id]);
         if (existing.length === 0) {
             return res.status(404).json({ success: false, message: 'Produk tidak ditemukan' });
         }
 
-        // Validasi: nama produk wajib diisi
         if (!nama_produk || nama_produk.trim() === '') {
             return res.status(400).json({ success: false, message: 'Nama produk wajib diisi' });
         }
-
-        // Validasi: harga harus lebih dari 0
         if (!harga || harga <= 0) {
             return res.status(400).json({ success: false, message: 'Harga harus lebih dari 0' });
         }
 
-        // Cek apakah nama produk sudah dipakai produk lain
-        const [duplicate] = await db.execute(
+        const [duplicate] = await db.query(
             'SELECT id FROM produk WHERE nama_produk = ? AND id != ? AND is_active = 1',
             [nama_produk.trim(), id]
         );
@@ -126,8 +111,8 @@ router.put('/:id', async (req, res) => {
             return res.status(400).json({ success: false, message: 'Nama produk sudah digunakan' });
         }
 
-        await db.execute(
-            'UPDATE produk SET nama_produk = ?, harga = ?, satuan = ?, updated_at = NOW() WHERE id = ?',
+        await db.query(
+            'UPDATE produk SET nama_produk = ?, harga = ?, satuan = ? WHERE id = ?',
             [nama_produk.trim(), harga, satuan, id]
         );
 
@@ -139,21 +124,17 @@ router.put('/:id', async (req, res) => {
 
 /**
  * DELETE /api/produk/:id
- * Menghapus produk (soft delete)
- * Rule: Produk tidak boleh dihapus jika sudah pernah dipakai di pesanan
  */
 router.delete('/:id', async (req, res) => {
     try {
         const { id } = req.params;
 
-        // Cek apakah produk ada
-        const [existing] = await db.execute('SELECT * FROM produk WHERE id = ? AND is_active = 1', [id]);
+        const [existing] = await db.query('SELECT id FROM produk WHERE id = ? AND is_active = 1', [id]);
         if (existing.length === 0) {
             return res.status(404).json({ success: false, message: 'Produk tidak ditemukan' });
         }
 
-        // Cek apakah produk pernah dipakai di pesanan
-        const [usedInOrder] = await db.execute('SELECT id FROM pesanan_detail WHERE produk_id = ?', [id]);
+        const [usedInOrder] = await db.query('SELECT id FROM pesanan_detail WHERE produk_id = ?', [id]);
         if (usedInOrder.length > 0) {
             return res.status(400).json({
                 success: false,
@@ -161,8 +142,7 @@ router.delete('/:id', async (req, res) => {
             });
         }
 
-        // Soft delete
-        await db.execute('UPDATE produk SET is_active = 0, updated_at = NOW() WHERE id = ?', [id]);
+        await db.query('UPDATE produk SET is_active = 0 WHERE id = ?', [id]);
 
         res.json({ success: true, message: 'Produk berhasil dihapus' });
     } catch (error) {
