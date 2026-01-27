@@ -20,7 +20,7 @@ export default function TransaksiPage() {
             if (filter.status) params.append('status', filter.status);
             if (filter.search) params.append('search', filter.search);
 
-            const res = await fetch(`http://localhost:3001/api/transaksi?${params.toString()}`);
+            const res = await fetch(`/api/transaksi?${params.toString()}`);
             const result = await res.json();
             if (result.success) {
                 setTransaksi(result.data);

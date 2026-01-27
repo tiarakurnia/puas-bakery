@@ -19,7 +19,7 @@ export default function CustomerPage() {
     });
     const [isEditing, setIsEditing] = useState(false);
 
-    const API_URL = 'http://localhost:3001/api/customer';
+    const API_URL = '/api/customer';
 
     useEffect(() => {
         fetchCustomer();

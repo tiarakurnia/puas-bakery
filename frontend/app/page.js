@@ -18,7 +18,7 @@ export default function ProdukPage() {
   });
   const [isEditing, setIsEditing] = useState(false);
 
-  const API_URL = 'http://localhost:3001/api/produk';
+  const API_URL = '/api/produk';
 
   useEffect(() => {
     fetchProduk();

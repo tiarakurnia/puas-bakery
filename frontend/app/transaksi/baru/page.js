@@ -29,8 +29,8 @@ export default function PesananBaruPage() {
     const fetchData = async () => {
         try {
             const [resCust, resProd] = await Promise.all([
-                fetch('http://localhost:3001/api/customer'),
-                fetch('http://localhost:3001/api/produk')
+                fetch('/api/customer'),
+                fetch('/api/produk')
             ]);
             const dataCust = await resCust.json();
             const dataProd = await resProd.json();
@@ -96,7 +96,7 @@ export default function PesananBaruPage() {
                 return;
             }
 
-            const res = await fetch('http://localhost:3001/api/transaksi', {
+            const res = await fetch('/api/transaksi', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData)
