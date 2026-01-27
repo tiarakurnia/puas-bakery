@@ -202,6 +202,9 @@ SISA BAYAR                         Rp   229.500
 
 ## Modul 5: Rekap & Laporan
 
+> [!TIP]
+> 📄 **Dokumentasi Lengkap**: Lihat [modul_5_rekap_laporan.md](file:///e:/Kasir/Docs/modul_5_rekap_laporan.md) untuk spesifikasi implementasi detail, API endpoints, dan UI mockups.
+
 ### 5.1 Tujuan Rekap Harian
 
 Rekap harian bertujuan untuk mengetahui **produk apa saja** yang harus disiapkan pada hari tersebut, beserta **jumlah** dan **jam pengambilan** masing-masing.

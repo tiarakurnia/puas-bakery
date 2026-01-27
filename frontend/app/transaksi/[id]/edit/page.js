@@ -1,35 +1,40 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import styles from '../../transaksi.module.css';
+import { useRouter, useParams } from 'next/navigation';
+import styles from '../../../transaksi.module.css';
 
-export default function PesananBaruPage() {
+export default function EditTransaksiPage() {
     const router = useRouter();
+    const params = useParams();
 
     const [customer, setCustomer] = useState([]);
     const [produk, setProduk] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     const [formData, setFormData] = useState({
         customer_id: '',
-        tanggal_ambil: new Date().toISOString().split('T')[0],
-        jam_ambil: '10:00',
+        tanggal_ambil: '',
+        jam_ambil: '',
         jenis_bayar: 'LUNAS',
         dp: '',
         items: []
     });
 
     const [selectedProduct, setSelectedProduct] = useState({ id: '', qty: 1 });
-
-    // Quick Add Customer State
+    // Modal Add Customer State
     const [showModal, setShowModal] = useState(false);
     const [newCustomer, setNewCustomer] = useState({ nama: '', no_hp: '', alamat: '' });
 
     useEffect(() => {
-        fetchData();
+        const initData = async () => {
+            await fetchMasterData();
+            await fetchPesanan();
+        };
+        initData();
     }, []);
 
-    const fetchData = async () => {
+    const fetchMasterData = async () => {
         try {
             const [resCust, resProd] = await Promise.all([
                 fetch('/api/customer'),
@@ -45,6 +50,39 @@ export default function PesananBaruPage() {
         }
     };
 
+    const fetchPesanan = async () => {
+        try {
+            const res = await fetch(`/api/transaksi/${params.id}`);
+            const result = await res.json();
+            if (result.success) {
+                const data = result.data;
+                // Convert Tanggal Ambil format to YYYY-MM-DD
+                const tgl = new Date(data.tanggal_ambil).toISOString().split('T')[0];
+
+                setFormData({
+                    customer_id: data.customer_id,
+                    tanggal_ambil: tgl,
+                    jam_ambil: data.jam_ambil,
+                    jenis_bayar: data.jenis_bayar,
+                    dp: data.dp,
+                    items: data.items.map(item => ({
+                        produk_id: item.produk_id,
+                        nama_produk: item.nama_produk,
+                        harga: item.harga,
+                        qty: item.qty
+                    }))
+                });
+            } else {
+                alert('Pesanan tidak ditemukan');
+                router.push('/transaksi');
+            }
+        } catch (error) {
+            console.error('Gagal fetch pesanan:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     const handleSaveCustomer = async (e) => {
         e.preventDefault();
         try {
@@ -56,20 +94,13 @@ export default function PesananBaruPage() {
             const result = await res.json();
 
             if (result.success) {
-                // Refresh list
                 const resCust = await fetch('/api/customer');
                 const dataCust = await resCust.json();
                 if (dataCust.success) {
                     setCustomer(dataCust.data);
-                    // Auto select new customer (assuming new one is last or by ID if backend provided it, 
-                    // but re-fetching is safer order. Ideally backend returns ID of new customer)
-
-                    // Backend insert 'result.message' might not contain ID, so we pick the one matching name or just rely on user finding it. 
-                    // BETTER: find max ID
                     const maxId = Math.max(...dataCust.data.map(c => c.id));
                     setFormData({ ...formData, customer_id: maxId });
                 }
-
                 setShowModal(false);
                 setNewCustomer({ nama: '', no_hp: '', alamat: '' });
                 alert('Customer berhasil ditambahkan!');
@@ -83,11 +114,9 @@ export default function PesananBaruPage() {
 
     const addItem = () => {
         if (!selectedProduct.id) return;
-
         const productDetail = produk.find(p => p.id === parseInt(selectedProduct.id));
         if (!productDetail) return;
 
-        // Cek apakah item sudah ada
         const existing = formData.items.find(i => i.produk_id === productDetail.id);
         if (existing) {
             setFormData({
@@ -107,7 +136,6 @@ export default function PesananBaruPage() {
                 }]
             });
         }
-
         setSelectedProduct({ id: '', qty: 1 });
     };
 
@@ -135,16 +163,16 @@ export default function PesananBaruPage() {
                 return;
             }
 
-            const res = await fetch('/api/transaksi', {
-                method: 'POST',
+            const res = await fetch(`/api/transaksi/${params.id}`, {
+                method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData)
             });
 
             const result = await res.json();
             if (result.success) {
-                alert('Pesanan berhasil dibuat!');
-                router.push('/transaksi');
+                alert('Pesanan berhasil diperbarui!');
+                router.push(`/transaksi/${params.id}`);
             } else {
                 alert(`Gagal: ${result.message}`);
             }
@@ -154,12 +182,13 @@ export default function PesananBaruPage() {
         }
     };
 
+    if (loading) return <div style={{ padding: '2rem', textAlign: 'center' }}>Loading...</div>;
+
     return (
         <div style={{ padding: '2rem', maxWidth: '800px', margin: '0 auto' }}>
-            <h1>📝 Buat Pesanan Baru</h1>
+            <h1>✏️ Edit Pesanan</h1>
 
             <form onSubmit={handleSubmit}>
-                {/* Section 1: Customer & Waktu */}
                 <section className={styles.formSection}>
                     <div className={styles.formGroup}>
                         <label>Pilih Customer</label>
@@ -213,7 +242,6 @@ export default function PesananBaruPage() {
                     </div>
                 </section>
 
-                {/* Section 2: Input Produk */}
                 <section className={styles.formSection}>
                     <h3>Detail Pesanan</h3>
                     <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'flex-end', marginBottom: '1rem' }}>
@@ -260,7 +288,6 @@ export default function PesananBaruPage() {
                     </div>
                 </section>
 
-                {/* Section 3: Pembayaran */}
                 <section className={styles.summaryBox}>
                     <div className={styles.formGroup}>
                         <label>Jenis Pembayaran</label>
@@ -314,13 +341,23 @@ export default function PesananBaruPage() {
                         </div>
                     </div>
 
-                    <button
-                        type="submit"
-                        className={`${styles.btn} ${styles.btnPrimary}`}
-                        style={{ width: '100%', marginTop: '1.5rem', padding: '1rem', fontSize: '1.2rem' }}
-                    >
-                        Simpan Pesanan
-                    </button>
+                    <div style={{ display: 'flex', gap: '1rem', marginTop: '1.5rem' }}>
+                        <button
+                            type="button"
+                            onClick={() => router.back()}
+                            className={styles.btn}
+                            style={{ flex: 1, background: '#6b7280', color: 'white' }}
+                        >
+                            Batal
+                        </button>
+                        <button
+                            type="submit"
+                            className={`${styles.btn} ${styles.btnPrimary}`}
+                            style={{ flex: 2, padding: '1rem', fontSize: '1.2rem' }}
+                        >
+                            Simpan Perubahan
+                        </button>
+                    </div>
                 </section>
             </form>
 

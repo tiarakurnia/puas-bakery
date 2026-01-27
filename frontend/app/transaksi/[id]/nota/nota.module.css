@@ -1,0 +1,210 @@
+.wrapper {
+    min-height: 100vh;
+    background: #f3f4f6;
+    padding: 2rem;
+}
+
+.actions {
+    max-width: 800px;
+    margin: 0 auto 1.5rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+}
+
+.btnBack,
+.btnPrint {
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+    font-size: 1rem;
+}
+
+.btnBack {
+    background: #6b7280;
+    color: white;
+}
+
+.btnBack:hover {
+    background: #4b5563;
+}
+
+.btnPrint {
+    background: #d97706;
+    color: white;
+}
+
+.btnPrint:hover {
+    background: #b45309;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.receipt {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.receiptContent {
+    background: white;
+    padding: 2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.header,
+.footer {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.separatorDashed {
+    border-bottom: 1px dashed #000;
+    margin: 0.5rem 0;
+    width: 100%;
+}
+
+.separatorDouble {
+    border-bottom: 3px double #000;
+    margin: 0.5rem 0;
+    width: 100%;
+}
+
+.storeName {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0.5rem 0;
+}
+
+.storeInfo {
+    font-size: 12px;
+    margin: 0.25rem 0;
+}
+
+.orderInfo {
+    margin: 1rem 0;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    margin: 0.25rem 0;
+}
+
+.tableHeader,
+.itemRow {
+    display: grid;
+    grid-template-columns: 3fr 1fr 1.5fr 1.5fr;
+    gap: 0.5rem;
+    margin: 0.25rem 0;
+}
+
+.tableHeader {
+    font-weight: bold;
+}
+
+.colItem {
+    text-align: left;
+}
+
+.colQty,
+.colPrice,
+.colSubtotal {
+    text-align: right;
+}
+
+.totalSection {
+    margin-top: 1rem;
+}
+
+.totalRow {
+    display: flex;
+    justify-content: space-between;
+    margin: 0.25rem 0;
+    font-weight: bold;
+}
+
+.footerText {
+    margin: 0.5rem 0;
+    font-size: 12px;
+}
+
+.loading,
+.error {
+    text-align: center;
+    padding: 3rem;
+    font-size: 1.2rem;
+    color: #6b7280;
+}
+
+/* ========== PRINT STYLES ========== */
+@media print {
+    @page {
+        size: 58mm auto;
+        margin: 0;
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+        width: 58mm;
+    }
+
+    .actions {
+        display: none !important;
+    }
+
+    .wrapper {
+        background: white;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+    }
+
+    .receipt {
+        width: 100%;
+        max-width: none;
+        margin: 0;
+        box-shadow: none;
+    }
+
+    .receiptContent {
+        width: 100%;
+        margin: 0;
+        padding: 2mm 1mm;
+        /* Minimal padding for 58mm */
+        box-shadow: none;
+        font-size: 10px;
+        /* Reduced for 58mm paper */
+        line-height: 1.2;
+    }
+
+    .storeName {
+        font-size: 14px;
+    }
+
+    .storeInfo {
+        font-size: 9px;
+    }
+
+    .separatorDashed,
+    .separatorDouble {
+        margin: 2px 0;
+    }
+
+    /* Adjust grid for narrow paper */
+    .tableHeader,
+    .itemRow {
+        grid-template-columns: 2.5fr 0.6fr 1.3fr 1.3fr;
+        gap: 2px;
+    }
+
+    .footerText {
+        font-size: 9px;
+    }
+}

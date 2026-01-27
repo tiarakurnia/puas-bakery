@@ -11,12 +11,27 @@ const pool = mysql.createPool({
     database: process.env.DB_NAME,
     port: parseInt(process.env.DB_PORT || '3306'),
     waitForConnections: true,
-    connectionLimit: 10,  // Max connection pool
+    connectionLimit: 5,  // Reduced untuk cloud database
     queueLimit: 0,
+    // Timeout settings - hanya connectTimeout yang supported
+    connectTimeout: 60000, // 60 seconds untuk initial connection
     // Penting untuk TiDB/Database Cloud -> butuh SSL
     ssl: process.env.DB_HOST && process.env.DB_HOST !== 'localhost' ? {
         rejectUnauthorized: true
-    } : undefined
+    } : undefined,
+    // Keep alive untuk menjaga connection tetap hidup
+    enableKeepAlive: true,
+    keepAliveInitialDelay: 0
 });
+
+// Test connection saat startup
+pool.getConnection()
+    .then(connection => {
+        console.log('✅ Database connected successfully (TiDB Cloud)');
+        connection.release();
+    })
+    .catch(err => {
+        console.error('❌ Database connection failed:', err.message);
+    });
 
 export default pool;

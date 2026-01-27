@@ -13,6 +13,7 @@ export default function RootLayout({ children }) {
         { name: 'Customer', path: '/customer', icon: '👥' },
         { name: 'Transaksi', path: '/transaksi', icon: '🛒' },
         { name: 'Rekap', path: '/rekap', icon: '📊' },
+        { name: 'Settings', path: '/settings', icon: '⚙️' },
     ];
 
     return (

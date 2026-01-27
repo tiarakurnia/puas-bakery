@@ -10,10 +10,14 @@
   },
   "dependencies": {
     "dotenv": "^17.2.3",
+    "file-saver": "^2.0.5",
     "mysql2": "^3.16.2",
     "next": "16.1.5",
     "react": "19.2.3",
-    "react-dom": "19.2.3"
+    "react-datepicker": "^9.1.0",
+    "react-dom": "19.2.3",
+    "recharts": "^3.7.0",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-latest/xlsx-latest.tgz"
   },
   "devDependencies": {
     "eslint": "^9",

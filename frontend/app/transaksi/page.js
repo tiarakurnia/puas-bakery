@@ -1,10 +1,12 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import styles from '../transaksi.module.css';
 
 export default function TransaksiPage() {
+    const router = useRouter();
     const [transaksi, setTransaksi] = useState([]);
     const [loading, setLoading] = useState(true);
     const [filter, setFilter] = useState({ status: '', search: '' });
@@ -88,7 +90,12 @@ export default function TransaksiPage() {
                 <div className={styles.orderGrid}>
                     {transaksi.length > 0 ? (
                         transaksi.map((item) => (
-                            <div key={item.id} className={styles.orderCard}>
+                            <div
+                                key={item.id}
+                                className={styles.orderCard}
+                                onClick={() => router.push(`/transaksi/${item.id}`)}
+                                style={{ cursor: 'pointer' }}
+                            >
                                 <div className={styles.cardHeader}>
                                     <span className={styles.orderDate}>{new Date(item.created_at).toLocaleDateString('id-ID')}</span>
                                     <span className={`${styles.statusBadge} ${getStatusClass(item.status)}`}>
@@ -105,6 +112,24 @@ export default function TransaksiPage() {
                                 <div className={styles.orderTotal}>
                                     Rp {parseFloat(item.total).toLocaleString('id-ID')}
                                 </div>
+                                <Link
+                                    href={`/transaksi/${item.id}/nota`}
+                                    onClick={(e) => e.stopPropagation()}
+                                    style={{
+                                        display: 'block',
+                                        marginTop: '1rem',
+                                        padding: '0.5rem',
+                                        background: '#d97706',
+                                        color: 'white',
+                                        textAlign: 'center',
+                                        borderRadius: '4px',
+                                        textDecoration: 'none',
+                                        fontWeight: '600',
+                                        fontSize: '0.9rem'
+                                    }}
+                                >
+                                    🖨️ Cetak Nota
+                                </Link>
                             </div>
                         ))
                     ) : (

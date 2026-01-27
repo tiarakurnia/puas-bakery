@@ -1,0 +1,364 @@
+/* Rekap Produksi Page Styles */
+
+.produksiPage {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Page Header */
+.pageHeader {
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #e5e7eb;
+}
+
+.pageTitle {
+    font-size: 1.8rem;
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+}
+
+.pageDesc {
+    color: #6b7280;
+    font-size: 0.95rem;
+}
+
+/* Filter Section */
+.filterSection {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: #f9fafb;
+    border-radius: 12px;
+    align-items: flex-end;
+}
+
+.filterGroup {
+    flex: 1;
+}
+
+.label {
+    display: block;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.dateInput {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 2px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.dateInput:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.btnPrimary {
+    padding: 0.75rem 2rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.btnPrimary:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.btnPrimary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Tanggal Info */
+.tanggalInfo {
+    text-align: center;
+    padding: 1rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+}
+
+/* Summary Cards */
+.summaryCards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.summaryCard {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #f0f7ff 0%, #e0f2fe 100%);
+    border-radius: 12px;
+    border: 2px solid #bfdbfe;
+}
+
+.cardIcon {
+    font-size: 2.5rem;
+}
+
+.cardContent {
+    flex: 1;
+}
+
+.cardLabel {
+    font-size: 0.85rem;
+    color: #64748b;
+    margin-bottom: 0.25rem;
+}
+
+.cardValue {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #1e40af;
+}
+
+/* Table Container */
+.tableContainer {
+    overflow-x: auto;
+    margin-bottom: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.rekapTable {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+.rekapTable thead {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.rekapTable th {
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.rekapTable tbody tr {
+    border-bottom: 1px solid #e5e7eb;
+    transition: background-color 0.2s ease;
+}
+
+.rekapTable tbody tr:hover {
+    background-color: #f9fafb;
+}
+
+.rekapTable tbody tr:last-child {
+    border-bottom: none;
+}
+
+.rekapTable td {
+    padding: 1rem;
+    font-size: 0.95rem;
+}
+
+.produkName {
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.jadwalCell {
+    color: #4b5563;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+    max-width: 500px;
+    line-height: 1.6;
+}
+
+.qtyCell {
+    font-weight: 600;
+    color: #2563eb;
+    text-align: center;
+}
+
+/* Action Buttons */
+.actionButtons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.btnExport,
+.btnPrint {
+    padding: 0.75rem 2rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+}
+
+.btnExport {
+    background: #10b981;
+    color: white;
+}
+
+.btnExport:hover {
+    background: #059669;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+}
+
+.btnPrint {
+    background: #f59e0b;
+    color: white;
+}
+
+.btnPrint:hover {
+    background: #d97706;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+}
+
+/* Loading State */
+.loadingBox {
+    text-align: center;
+    padding: 3rem;
+    color: #6b7280;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid #e5e7eb;
+    border-top-color: #667eea;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 1rem;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Error Box */
+.errorBox {
+    background: #fee2e2;
+    border: 2px solid #fca5a5;
+    color: #dc2626;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+/* Empty State */
+.emptyState,
+.initialState {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: #6b7280;
+}
+
+.emptyIcon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+}
+
+.emptyState h3,
+.initialState h3 {
+    color: #374151;
+    margin-bottom: 0.5rem;
+}
+
+.emptyState p,
+.initialState p {
+    color: #9ca3af;
+}
+
+/* Print Styles */
+@media print {
+
+    .filterSection,
+    .actionButtons,
+    .pageDesc {
+        display: none !important;
+    }
+
+    .produksiPage {
+        max-width: 100%;
+    }
+
+    .summaryCards {
+        break-inside: avoid;
+    }
+
+    .rekapTable {
+        page-break-inside: auto;
+    }
+
+    .rekapTable tr {
+        page-break-inside: avoid;
+        page-break-after: auto;
+    }
+
+    .rekapTable thead {
+        display: table-header-group;
+    }
+
+    @page {
+        margin: 1cm;
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .filterSection {
+        flex-direction: column;
+    }
+
+    .summaryCards {
+        grid-template-columns: 1fr;
+    }
+
+    .tableContainer {
+        overflow-x: scroll;
+    }
+
+    .rekapTable th,
+    .rekapTable td {
+        padding: 0.75rem 0.5rem;
+        font-size: 0.85rem;
+    }
+
+    .jadwalCell {
+        max-width: 300px;
+        font-size: 0.8rem;
+    }
+
+    .actionButtons {
+        flex-direction: column;
+    }
+
+    .btnExport,
+    .btnPrint {
+        width: 100%;
+    }
+}
