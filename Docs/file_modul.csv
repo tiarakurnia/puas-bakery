@@ -1,0 +1,32 @@
+fitur,modul,detail_pekerjaan,rule
+Master Data Produk,Produk - Input Barang,Menyediakan form untuk menambah data menu kue (nama, harga, satuan, stok opsional),Nama produk wajib diisi dan unik
+Master Data Produk,Produk - Input Barang,Sistem menyimpan harga dalam format numerik tanpa simbol mata uang,Harga tidak boleh negatif atau nol
+Master Data Produk,Produk - Input Barang,Menampilkan daftar produk dalam bentuk tabel/card,List harus bisa dicari berdasarkan nama
+Master Data Produk,Produk - Edit Barang,User dapat mengubah nama, harga, dan stok produk,Perubahan langsung memengaruhi pesanan berikutnya
+Master Data Produk,Produk - Hapus Barang,User dapat menghapus produk yang tidak dijual lagi,Produk tidak boleh dihapus jika sudah pernah dipakai di pesanan
+Master Data Customer,Customer - Input Data,Menyediakan form input nama customer dan nomor HP,Nama customer wajib diisi
+Master Data Customer,Customer - Input Data,Field alamat dan email bersifat opsional,Nomor HP boleh kosong jika customer offline
+Master Data Customer,Customer - List Customer,Menampilkan daftar customer yang pernah disimpan,List bisa dicari berdasarkan nama atau nomor HP
+Master Data Customer,Customer - Edit Customer,User dapat mengubah data customer,Data lama ditimpa data baru
+Master Data Customer,Customer - Hapus Customer,User dapat menghapus customer,Customer tidak boleh dihapus jika masih punya pesanan aktif
+Transaksi Pesanan,Pesanan - Input Pesanan,Menyediakan form input pesanan baru,Pesanan wajib memilih customer
+Transaksi Pesanan,Pesanan - Input Pesanan,User memilih tanggal dan jam pengambilan pesanan,Tanggal pesanan tidak boleh lebih kecil dari tanggal hari ini
+Transaksi Pesanan,Pesanan - Input Pesanan,User menambahkan satu atau lebih item produk ke pesanan,Pesanan tidak boleh disimpan tanpa item
+Transaksi Pesanan,Pesanan - Input Pesanan,User memasukkan jumlah (qty) tiap item,Qty minimal 1
+Transaksi Pesanan,Pesanan - Hitung Total,Sistem menghitung subtotal per item (qty x harga),Harga diambil dari harga produk saat transaksi
+Transaksi Pesanan,Pesanan - Hitung Total,Sistem menjumlahkan seluruh subtotal menjadi total pesanan,Total dihitung otomatis dan tidak bisa diedit manual
+Transaksi Pesanan,Pembayaran - DP,LUNAS,User memilih jenis pembayaran DP atau LUNAS,Status pembayaran wajib dipilih
+Transaksi Pesanan,Pembayaran - DP,LUNAS,Jika DP dipilih user memasukkan nominal DP,Nominal DP harus lebih kecil dari total pesanan
+Transaksi Pesanan,Pembayaran - DP,LUNAS,Jika LUNAS dipilih maka DP otomatis bernilai nol,Sisa pembayaran bernilai nol
+Transaksi Pesanan,Pesanan - Simpan Data,Sistem menyimpan data pesanan dan item sekaligus,Proses simpan menggunakan transaksi database
+Transaksi Pesanan,Pesanan - Edit Pesanan,User dapat mengubah tanggal, jam, item, dan pembayaran,Edit tidak boleh dilakukan jika pesanan sudah selesai
+Transaksi Pesanan,Pesanan - Hapus Pesanan,User dapat menghapus pesanan,Hapus hanya boleh jika pesanan belum dicetak
+Cetak Nota,Pesanan - Cetak Nota,Sistem menghasilkan format teks struk kasir,Format harus kompatibel dengan printer thermal 58mm
+Cetak Nota,Pesanan - Cetak Nota,Struk berisi nama toko, nomor pesanan, tanggal dan jam,Nama toko bersifat konfigurasi
+Cetak Nota,Pesanan - Cetak Nota,Struk menampilkan daftar item, qty, harga, subtotal,Urutan item sesuai input
+Cetak Nota,Pesanan - Cetak Nota,Struk menampilkan total, DP, sisa bayar,Perhitungan harus konsisten dengan data pesanan
+Cetak Nota,Pesanan - Cetak Nota,Sistem mengirim data struk ke printer bluetooth,Printer harus sudah terhubung sebelum cetak
+Rekap & Laporan,Laporan - Rekap Harian,User memilih tanggal untuk melihat rekap,Filter tanggal wajib diisi
+Rekap & Laporan,Laporan - Rekap Harian,Sistem menampilkan jumlah pesanan per hari,Data diambil dari tabel pesanan
+Rekap & Laporan,Laporan - Rekap Harian,Sistem menghitung total transaksi DP dan LUNAS,DP dan LUNAS dihitung terpisah
+Rekap & Laporan,Laporan - Rekap Harian,Rekap ditampilkan dalam bentuk tabel ringkasan,Data hanya bersifat read-only
