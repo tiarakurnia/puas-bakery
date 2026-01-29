@@ -10,8 +10,8 @@ export async function GET(request) {
         const params = [];
 
         if (search) {
-            query += ' WHERE nama LIKE ? OR no_hp LIKE ?';
-            params.push(`%${search}%`, `%${search}%`);
+            query += ' WHERE LOWER(nama) LIKE LOWER(?) OR LOWER(no_hp) LIKE LOWER(?) OR LOWER(alamat) LIKE LOWER(?) OR LOWER(email) LIKE LOWER(?)';
+            params.push(`%${search}%`, `%${search}%`, `%${search}%`, `%${search}%`);
         }
 
         query += ' ORDER BY nama ASC';
@@ -26,23 +26,37 @@ export async function GET(request) {
 export async function POST(request) {
     try {
         const body = await request.json();
-        const { nama, no_hp, alamat, email } = body;
+        const { nama, no_hp, alamat, email, catatan, tag } = body;
 
-        // Validasi: nama wajib diisi
         if (!nama || nama.trim() === '') {
             return NextResponse.json({ success: false, message: 'Nama customer wajib diisi' }, { status: 400 });
         }
 
-        const [result] = await pool.query(
-            'INSERT INTO customer (nama, no_hp, alamat, email) VALUES (?, ?, ?, ?)',
-            [nama.trim(), no_hp, alamat, email]
-        );
+        // Check if catatan column exists
+        const [columns] = await pool.query("SHOW COLUMNS FROM customer LIKE 'catatan'");
+        const hasCatatanColumn = columns.length > 0;
+
+        let result;
+        if (hasCatatanColumn) {
+            // New version with catatan & tag
+            [result] = await pool.query(
+                'INSERT INTO customer (nama, no_hp, alamat, email, catatan, tag) VALUES (?, ?, ?, ?, ?, ?)',
+                [nama.trim(), no_hp, alamat, email, catatan, tag]
+            );
+        } else {
+            // Old version without catatan & tag
+            [result] = await pool.query(
+                'INSERT INTO customer (nama, no_hp, alamat, email) VALUES (?, ?, ?, ?)',
+                [nama.trim(), no_hp, alamat, email]
+            );
+        }
 
         return NextResponse.json({
             success: true,
             message: 'Customer berhasil ditambahkan',
             data: { id: result.insertId }
         }, { status: 201 });
+
     } catch (error) {
         return NextResponse.json({ success: false, message: error.message }, { status: 500 });
     }

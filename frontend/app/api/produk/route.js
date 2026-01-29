@@ -10,8 +10,8 @@ export async function GET(request) {
         const params = [];
 
         if (search) {
-            query += ' AND nama_produk LIKE ?';
-            params.push(`%${search}%`);
+            query += ' AND (LOWER(nama_produk) LIKE LOWER(?) OR LOWER(satuan) LIKE LOWER(?))';
+            params.push(`%${search}%`, `%${search}%`);
         }
 
         query += ' ORDER BY nama_produk ASC';

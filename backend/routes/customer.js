@@ -19,8 +19,8 @@ router.get('/', async (req, res) => {
         const params = [];
 
         if (search) {
-            query += ' WHERE nama LIKE ? OR no_hp LIKE ?';
-            params.push(`%${search}%`, `%${search}%`);
+            query += ' WHERE LOWER(nama) LIKE LOWER(?) OR LOWER(no_hp) LIKE LOWER(?) OR LOWER(alamat) LIKE LOWER(?) OR LOWER(email) LIKE LOWER(?)';
+            params.push(`%${search}%`, `%${search}%`, `%${search}%`, `%${search}%`);
         }
 
         query += ' ORDER BY nama ASC';
@@ -56,16 +56,16 @@ router.get('/:id', async (req, res) => {
  */
 router.post('/', async (req, res) => {
     try {
-        const { nama, no_hp, alamat, email } = req.body;
+        const { nama, no_hp, alamat, email, catatan, tag } = req.body;
 
         // Validasi: nama wajib diisi
-        if (!nama || nama.trim() === '') {
+        if (!nama) {
             return res.status(400).json({ success: false, message: 'Nama customer wajib diisi' });
         }
 
-        const [result] = await db.execute(
-            'INSERT INTO customer (nama, no_hp, alamat, email) VALUES (?, ?, ?, ?)',
-            [nama.trim(), no_hp, alamat, email]
+        const [result] = await db.query(
+            'INSERT INTO customer (nama, no_hp, alamat, email, catatan, tag) VALUES (?, ?, ?, ?, ?, ?)',
+            [nama, no_hp || null, alamat || null, email || null, catatan || null, tag || null]
         );
 
         res.status(201).json({
@@ -85,20 +85,20 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
     try {
         const { id } = req.params;
-        const { nama, no_hp, alamat, email } = req.body;
+        const { nama, no_hp, alamat, email, catatan, tag } = req.body;
 
         const [existing] = await db.execute('SELECT id FROM customer WHERE id = ?', [id]);
         if (existing.length === 0) {
             return res.status(404).json({ success: false, message: 'Customer tidak ditemukan' });
         }
 
-        if (!nama || nama.trim() === '') {
+        if (!nama) {
             return res.status(400).json({ success: false, message: 'Nama customer wajib diisi' });
         }
 
         await db.execute(
-            'UPDATE customer SET nama = ?, no_hp = ?, alamat = ?, email = ?, updated_at = NOW() WHERE id = ?',
-            [nama.trim(), no_hp, alamat, email, id]
+            'UPDATE customer SET nama = ?, no_hp = ?, alamat = ?, email = ?, catatan = ?, tag = ? WHERE id = ?',
+            [nama, no_hp || null, alamat || null, email || null, catatan || null, tag || null, id]
         );
 
         res.json({ success: true, message: 'Data customer berhasil diubah' });
@@ -137,6 +137,31 @@ router.delete('/:id', async (req, res) => {
         await db.execute('DELETE FROM customer WHERE id = ?', [id]);
 
         res.json({ success: true, message: 'Customer berhasil dihapus' });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+});
+
+/**
+ * GET /api/customer/:id/history
+ * Riwayat pesanan customer
+ */
+router.get('/:id/history', async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const [pesanan] = await db.query(`
+            SELECT 
+                p.*,
+                COUNT(pd.id) as total_items
+            FROM pesanan p
+            LEFT JOIN pesanan_detail pd ON p.id = pd.pesanan_id
+            WHERE p.customer_id = ?
+            GROUP BY p.id
+            ORDER BY p.created_at DESC
+        `, [id]);
+
+        res.json({ success: true, data: pesanan });
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
     }

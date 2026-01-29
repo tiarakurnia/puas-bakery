@@ -1,0 +1,250 @@
+.container {
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.title {
+    font-size: 1.8rem;
+    color: #333;
+    margin: 0;
+}
+
+.refreshBtn {
+    padding: 0.6rem 1.2rem;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: background 0.3s;
+}
+
+.refreshBtn:hover {
+    background: #0056b3;
+}
+
+/* Widgets Grid */
+.widgetsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.widget {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.widget:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.widgetIcon {
+    font-size: 2.5rem;
+}
+
+.widgetContent h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 0.9rem;
+    color: #666;
+    font-weight: 500;
+}
+
+.widgetValue {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.widgetPrimary {
+    border-left: 4px solid #007bff;
+}
+
+.widgetInfo {
+    border-left: 4px solid #17a2b8;
+}
+
+.widgetSuccess {
+    border-left: 4px solid #28a745;
+}
+
+.widgetMoney {
+    border-left: 4px solid #ffc107;
+}
+
+.widgetCustomer {
+    border-left: 4px solid #6f42c1;
+}
+
+/* Alerts Section */
+.alertsSection {
+    margin-bottom: 2rem;
+}
+
+.alertsSection h2 {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.alertBox {
+    background: #fff3cd;
+    border-left: 4px solid #ffc107;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.alertWarning {
+    background: #f8d7da;
+    border-left: 4px solid #dc3545;
+}
+
+.alertTitle {
+    margin: 0 0 1rem 0;
+    font-size: 1.1rem;
+    color: #856404;
+}
+
+.alertWarning .alertTitle {
+    color: #721c24;
+}
+
+.alertItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem;
+    background: white;
+    border-radius: 6px;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.alertItem:last-child {
+    margin-bottom: 0;
+}
+
+.alertBadge {
+    background: #007bff;
+    color: white;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.alertMoney {
+    font-weight: 600;
+    color: #dc3545;
+}
+
+.statusBadge {
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.statusBadge.baru {
+    background: #007bff;
+    color: white;
+}
+
+.statusBadge.diproses {
+    background: #17a2b8;
+    color: white;
+}
+
+.statusBadge.siapdiambil {
+    background: #28a745;
+    color: white;
+}
+
+/* Top Products */
+.topProductsSection {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.topProductsSection h2 {
+    font-size: 1.4rem;
+    margin-bottom: 1.5rem;
+    color: #333;
+}
+
+.productList {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.productItem {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    transition: background 0.2s;
+}
+
+.productItem:hover {
+    background: #e9ecef;
+}
+
+.productRank {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #ffc107;
+    min-width: 50px;
+    text-align: center;
+}
+
+.productInfo h4 {
+    margin: 0 0 0.3rem 0;
+    font-size: 1.1rem;
+    color: #333;
+}
+
+.productInfo p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .widgetsGrid {
+        grid-template-columns: 1fr;
+    }
+}

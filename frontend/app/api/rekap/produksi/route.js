@@ -7,13 +7,14 @@ export async function GET(request) {
     try {
         const { searchParams } = new URL(request.url);
         const tanggal = searchParams.get('tanggal');
+        const search = searchParams.get('search');
 
         if (!tanggal) {
             return NextResponse.json({ success: false, message: 'Parameter tanggal wajib diisi' }, { status: 400 });
         }
 
         // Query raw data: produk, jam, qty
-        const [rows] = await pool.query(`
+        let query = `
             SELECT 
                 pd.nama_produk,
                 p.jam_ambil,
@@ -23,9 +24,17 @@ export async function GET(request) {
             WHERE 
                 DATE(p.tanggal_ambil) = ? 
                 AND p.status != 'DIBATALKAN'
-            GROUP BY pd.nama_produk, p.jam_ambil
-            ORDER BY pd.nama_produk ASC, p.jam_ambil ASC
-        `, [tanggal]);
+        `;
+        const params = [tanggal];
+
+        if (search) {
+            query += ' AND LOWER(pd.nama_produk) LIKE LOWER(?)';
+            params.push(`%${search}%`);
+        }
+
+        query += ' GROUP BY pd.nama_produk, p.jam_ambil ORDER BY pd.nama_produk ASC, p.jam_ambil ASC';
+
+        const [rows] = await pool.query(query, params);
 
         // Process data formatting in Backend
         // Group by product name -> list of schedules

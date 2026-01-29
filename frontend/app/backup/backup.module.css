@@ -1,0 +1,293 @@
+.container {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.header {
+    margin-bottom: 2rem;
+}
+
+.title {
+    font-size: 1.8rem;
+    color: #333;
+    margin: 0;
+}
+
+.successMsg,
+.errorMsg,
+.infoMsg {
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+.successMsg {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.errorMsg {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.infoMsg {
+    background: #d1ecf1;
+    color: #0c5460;
+    border: 1px solid #bee5eb;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.card {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card h2 {
+    margin: 0 0 1rem 0;
+    color: #333;
+    font-size: 1.4rem;
+}
+
+.card p {
+    color: #666;
+    margin-bottom: 1.5rem;
+}
+
+.info {
+    background: #e7f3ff;
+    border-left: 4px solid #007bff;
+    padding: 1rem;
+    border-radius: 6px;
+    margin-bottom: 1.5rem;
+}
+
+.info ul {
+    margin: 0.5rem 0 0 1.5rem;
+    padding: 0;
+}
+
+.info li {
+    margin: 0.3rem 0;
+}
+
+.warning {
+    background: #fff3cd;
+    border-left: 4px solid #ffc107;
+    padding: 1rem;
+    border-radius: 6px;
+    margin-bottom: 1.5rem;
+}
+
+.warning strong {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #856404;
+}
+
+.warning p {
+    margin: 0;
+    color: #856404;
+}
+
+.btnPrimary {
+    width: 100%;
+    padding: 1rem;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btnPrimary:hover:not(:disabled) {
+    background: #0056b3;
+}
+
+.btnPrimary:disabled {
+    background: #6c757d;
+    cursor: not-allowed;
+}
+
+.btnDanger {
+    width: 100%;
+    padding: 1rem;
+    background: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-top: 1rem;
+}
+
+.btnDanger:hover:not(:disabled) {
+    background: #c82333;
+}
+
+.btnDanger:disabled {
+    background: #6c757d;
+    cursor: not-allowed;
+}
+
+.uploadSection {
+    margin-bottom: 1rem;
+}
+
+.uploadLabel {
+    display: block;
+    padding: 1rem;
+    background: #f8f9fa;
+    border: 2px dashed #007bff;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.uploadLabel:hover {
+    background: #e7f3ff;
+    border-color: #0056b3;
+}
+
+.fileInput {
+    display: none;
+}
+
+.validBox,
+.invalidBox {
+    margin-top: 1rem;
+    padding: 1rem;
+    border-radius: 8px;
+}
+
+.validBox {
+    background: #d4edda;
+    border: 1px solid #c3e6cb;
+}
+
+.invalidBox {
+    background: #f8d7da;
+    border: 1px solid #f5c6cb;
+}
+
+.validBox h3 {
+    margin: 0 0 1rem 0;
+    color: #155724;
+}
+
+.invalidBox h3 {
+    margin: 0 0 1rem 0;
+    color: #721c24;
+}
+
+.errorList,
+.warningList {
+    margin: 1rem 0;
+}
+
+.errorList strong,
+.warningList strong {
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.errorList ul,
+.warningList ul {
+    margin: 0;
+    padding-left: 1.5rem;
+}
+
+.stats {
+    margin: 1rem 0;
+    padding: 1rem;
+    background: white;
+    border-radius: 6px;
+}
+
+.stats strong {
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.stats ul {
+    margin: 0;
+    padding-left: 1.5rem;
+}
+
+.stats li {
+    margin: 0.3rem 0;
+}
+
+/* Tips Section */
+.tipsCard {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.tipsCard h2 {
+    margin: 0 0 1.5rem 0;
+    color: #333;
+}
+
+.tipsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.tip {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.tipIcon {
+    font-size: 2rem;
+}
+
+.tip strong {
+    display: block;
+    margin-bottom: 0.3rem;
+    color: #333;
+}
+
+.tip p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .tipsGrid {
+        grid-template-columns: 1fr;
+    }
+}

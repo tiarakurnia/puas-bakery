@@ -5,18 +5,19 @@ import styles from '../rekap.module.css';
 
 export default function RekapProduksiPage() {
     const [tanggal, setTanggal] = useState(new Date().toISOString().split('T')[0]);
+    const [search, setSearch] = useState('');
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [totalQty, setTotalQty] = useState(0);
 
     useEffect(() => {
         fetchData();
-    }, [tanggal]);
+    }, [tanggal, search]);
 
     const fetchData = async () => {
         setLoading(true);
         try {
-            const res = await fetch(`/api/rekap/produksi?tanggal=${tanggal}`);
+            const res = await fetch(`/api/rekap/produksi?tanggal=${tanggal}&search=${search}`);
             const result = await res.json();
 
             if (result.success) {
@@ -42,14 +43,26 @@ export default function RekapProduksiPage() {
     return (
         <div className={styles.card}>
             <div className={styles.filterBar}>
-                <label>Pilih Tanggal Pengambilan:</label>
-                <input
-                    type="date"
-                    value={tanggal}
-                    onChange={(e) => setTanggal(e.target.value)}
-                    className={styles.input}
-                />
-                <button onClick={handlePrint} className={styles.btn} style={{ marginLeft: 'auto' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    <label>Tanggal:</label>
+                    <input
+                        type="date"
+                        value={tanggal}
+                        onChange={(e) => setTanggal(e.target.value)}
+                        className={styles.input}
+                    />
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flex: 1 }}>
+                    <input
+                        type="text"
+                        placeholder="Cari nama produk..."
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                        className={styles.input}
+                        style={{ width: '100%' }}
+                    />
+                </div>
+                <button onClick={handlePrint} className={styles.btn}>
                     🖨️ Cetak Rekap
                 </button>
             </div>

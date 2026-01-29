@@ -1,9 +1,9 @@
 import pool from '../../../../lib/db';
 import { NextResponse } from 'next/server';
 
-export async function GET(request, { params }) {
+export async function GET(request, context) {
     try {
-        const { id } = params;
+        const { id } = await context.params;
         const [rows] = await pool.query('SELECT * FROM produk WHERE id = ? AND is_active = 1', [id]);
 
         if (rows.length === 0) {
@@ -16,9 +16,9 @@ export async function GET(request, { params }) {
     }
 }
 
-export async function PUT(request, { params }) {
+export async function PUT(request, context) {
     try {
-        const { id } = params;
+        const { id } = await context.params;
         const body = await request.json();
         const { nama_produk, harga, satuan } = body;
 
@@ -54,9 +54,9 @@ export async function PUT(request, { params }) {
     }
 }
 
-export async function DELETE(request, { params }) {
+export async function DELETE(request, context) {
     try {
-        const { id } = params;
+        const { id } = await context.params;
 
         const [existing] = await pool.query('SELECT id FROM produk WHERE id = ? AND is_active = 1', [id]);
         if (existing.length === 0) {
@@ -78,3 +78,4 @@ export async function DELETE(request, { params }) {
         return NextResponse.json({ success: false, message: error.message }, { status: 500 });
     }
 }
+

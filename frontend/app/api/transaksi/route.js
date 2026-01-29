@@ -50,8 +50,8 @@ export async function GET(request) {
             params.push(tanggal);
         }
         if (search) {
-            conditions.push('(p.nomor_pesanan LIKE ? OR c.nama LIKE ?)');
-            params.push(`%${search}%`, `%${search}%`);
+            conditions.push('(LOWER(p.nomor_pesanan) LIKE LOWER(?) OR LOWER(c.nama) LIKE LOWER(?) OR LOWER(c.no_hp) LIKE LOWER(?))');
+            params.push(`%${search}%`, `%${search}%`, `%${search}%`);
         }
 
         if (conditions.length > 0) {

@@ -123,3 +123,83 @@
     font-size: 0.85rem;
     font-weight: 600;
 }
+
+/* Print Styles */
+@media print {
+    @page {
+        size: auto;
+        /* auto is the initial value */
+        margin: 15mm;
+        /* Set reasonable margins for A4 */
+    }
+
+    .container {
+        padding: 0;
+        max-width: 100%;
+        margin: 0;
+        width: 100%;
+    }
+
+    .header {
+        margin-bottom: 1.5rem;
+        text-align: center;
+        border-bottom: 2px solid #000;
+        padding-bottom: 1rem;
+    }
+
+    .title {
+        font-size: 20pt;
+        margin-bottom: 0.5rem;
+        color: #000;
+    }
+
+    .subtitle {
+        font-size: 12pt;
+        color: #333;
+    }
+
+    .tabs,
+    .filterBar,
+    .btn {
+        display: none !important;
+    }
+
+    .card {
+        padding: 0;
+        margin: 0;
+        box-shadow: none;
+        border: none;
+        background: transparent;
+    }
+
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        border: 2px solid #000;
+    }
+
+    .table th,
+    .table td {
+        border: 1px solid #000;
+        padding: 8px;
+        font-size: 11pt;
+        color: #000;
+        vertical-align: middle;
+    }
+
+    .table th {
+        background-color: #e5e7eb !important;
+        font-weight: bold;
+        text-transform: uppercase;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    /* Ensure specific elements in transaction summary print well */
+    .scheduleItem {
+        border: 1px solid #666;
+        background: none !important;
+        color: #000 !important;
+        padding: 2px 8px;
+    }
+}

@@ -15,7 +15,9 @@ export default function CustomerPage() {
         nama: '',
         no_hp: '',
         alamat: '',
-        email: ''
+        email: '',
+        catatan: '',
+        tag: ''
     });
     const [isEditing, setIsEditing] = useState(false);
 
@@ -81,7 +83,9 @@ export default function CustomerPage() {
             nama: item.nama,
             no_hp: item.no_hp || '',
             alamat: item.alamat || '',
-            email: item.email || ''
+            email: item.email || '',
+            catatan: item.catatan || '',
+            tag: item.tag || ''
         });
         setIsEditing(true);
     };
@@ -104,7 +108,7 @@ export default function CustomerPage() {
     };
 
     const resetForm = () => {
-        setFormData({ id: null, nama: '', no_hp: '', alamat: '', email: '' });
+        setFormData({ id: null, nama: '', no_hp: '', alamat: '', email: '', catatan: '', tag: '' });
         setIsEditing(false);
     };
 
@@ -216,6 +220,29 @@ export default function CustomerPage() {
                                     className={styles.input}
                                     value={formData.email}
                                     onChange={handleChange}
+                                />
+                            </div>
+                            <div className={styles.formGroup}>
+                                <label>Catatan Khusus (Opsional)</label>
+                                <textarea
+                                    name="catatan"
+                                    className={styles.input}
+                                    value={formData.catatan}
+                                    onChange={handleChange}
+                                    rows="2"
+                                    placeholder="Contoh: Alergi telur, Selalu pesan jam 07:00"
+                                    style={{ resize: 'none' }}
+                                />
+                            </div>
+                            <div className={styles.formGroup}>
+                                <label>Tag/Label (Opsional)</label>
+                                <input
+                                    type="text"
+                                    name="tag"
+                                    className={styles.input}
+                                    value={formData.tag}
+                                    onChange={handleChange}
+                                    placeholder="Contoh: VIP, Reseller, Event"
                                 />
                             </div>
                             <div style={{ display: 'flex', gap: '0.5rem', marginTop: '1.5rem' }}>

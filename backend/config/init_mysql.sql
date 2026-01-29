@@ -18,6 +18,8 @@ CREATE TABLE IF NOT EXISTS customer (
     no_hp VARCHAR(20),
     alamat TEXT,
     email VARCHAR(100),
+    catatan TEXT,
+    tag VARCHAR(50),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
@@ -66,3 +68,58 @@ CREATE TABLE IF NOT EXISTS konfigurasi (
 -- Insert Default Konfigurasi (jika belum ada)
 INSERT IGNORE INTO konfigurasi (id, nama_toko, alamat_toko, telepon_toko) 
 VALUES (1, 'Puas Bakery', 'Tambak Beras Gg 1 No 2, Kec. Jombang, Kab. Jombang', '085331277898');
+
+-- Tabel Jam Operasional
+CREATE TABLE IF NOT EXISTS jam_operasional (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    hari ENUM('Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu') NOT NULL UNIQUE,
+    jam_buka TIME NOT NULL,
+    jam_tutup TIME NOT NULL,
+    is_buka BOOLEAN DEFAULT 1,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Tabel Slot Waktu Pickup
+CREATE TABLE IF NOT EXISTS slot_waktu (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    waktu TIME NOT NULL UNIQUE,
+    is_aktif BOOLEAN DEFAULT 1
+);
+
+-- Tabel Tanggal Libur
+CREATE TABLE IF NOT EXISTS tanggal_libur (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    tanggal DATE NOT NULL UNIQUE,
+    keterangan VARCHAR(100)
+);
+
+-- Tabel History Pembayaran
+CREATE TABLE IF NOT EXISTS history_pembayaran (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    pesanan_id INT NOT NULL,
+    nominal DECIMAL(12,2) NOT NULL,
+    keterangan VARCHAR(200),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (pesanan_id) REFERENCES pesanan(id) ON DELETE CASCADE
+);
+
+-- Insert Jam Operasional Default (Senin-Minggu)
+INSERT IGNORE INTO jam_operasional (hari, jam_buka, jam_tutup, is_buka) VALUES
+('Senin', '07:00:00', '18:00:00', 1),
+('Selasa', '07:00:00', '18:00:00', 1),
+('Rabu', '07:00:00', '18:00:00', 1),
+('Kamis', '07:00:00', '18:00:00', 1),
+('Jumat', '07:00:00', '18:00:00', 1),
+('Sabtu', '07:00:00', '18:00:00', 1),
+('Minggu', '08:00:00', '14:00:00', 0);
+
+-- Insert Slot Waktu Default (setiap 30 menit dari 07:00 - 18:00)
+INSERT IGNORE INTO slot_waktu (waktu) VALUES
+('07:00:00'), ('07:30:00'), ('08:00:00'), ('08:30:00'),
+('09:00:00'), ('09:30:00'), ('10:00:00'), ('10:30:00'),
+('11:00:00'), ('11:30:00'), ('12:00:00'), ('12:30:00'),
+('13:00:00'), ('13:30:00'), ('14:00:00'), ('14:30:00'),
+('15:00:00'), ('15:30:00'), ('16:00:00'), ('16:30:00'),
+('17:00:00'), ('17:30:00'), ('18:00:00');
+

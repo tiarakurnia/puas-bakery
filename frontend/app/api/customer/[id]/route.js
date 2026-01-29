@@ -1,9 +1,9 @@
 import pool from '../../../../lib/db';
 import { NextResponse } from 'next/server';
 
-export async function GET(request, { params }) {
+export async function GET(request, context) {
     try {
-        const { id } = params;
+        const { id } = await context.params;
         const [rows] = await pool.query('SELECT * FROM customer WHERE id = ?', [id]);
 
         if (rows.length === 0) {
@@ -16,11 +16,11 @@ export async function GET(request, { params }) {
     }
 }
 
-export async function PUT(request, { params }) {
+export async function PUT(request, context) {
     try {
-        const { id } = params;
+        const { id } = await context.params;
         const body = await request.json();
-        const { nama, no_hp, alamat, email } = body;
+        const { nama, no_hp, alamat, email, catatan, tag } = body;
 
         const [existing] = await pool.query('SELECT id FROM customer WHERE id = ?', [id]);
         if (existing.length === 0) {
@@ -31,10 +31,23 @@ export async function PUT(request, { params }) {
             return NextResponse.json({ success: false, message: 'Nama customer wajib diisi' }, { status: 400 });
         }
 
-        await pool.query(
-            'UPDATE customer SET nama = ?, no_hp = ?, alamat = ?, email = ?, updated_at = NOW() WHERE id = ?',
-            [nama.trim(), no_hp, alamat, email, id]
-        );
+        // Check if catatan and tag columns exist
+        const [columns] = await pool.query("SHOW COLUMNS FROM customer LIKE 'catatan'");
+        const hasCatatanColumn = columns.length > 0;
+
+        if (hasCatatanColumn) {
+            // New version with catatan & tag
+            await pool.query(
+                'UPDATE customer SET nama = ?, no_hp = ?, alamat = ?, email = ?, catatan = ?, tag = ?, updated_at = NOW() WHERE id = ?',
+                [nama.trim(), no_hp, alamat, email, catatan, tag, id]
+            );
+        } else {
+            // Old version without catatan & tag (backwards compatible)
+            await pool.query(
+                'UPDATE customer SET nama = ?, no_hp = ?, alamat = ?, email = ?, updated_at = NOW() WHERE id = ?',
+                [nama.trim(), no_hp, alamat, email, id]
+            );
+        }
 
         return NextResponse.json({ success: true, message: 'Data customer berhasil diubah' });
     } catch (error) {
@@ -42,9 +55,9 @@ export async function PUT(request, { params }) {
     }
 }
 
-export async function DELETE(request, { params }) {
+export async function DELETE(request, context) {
     try {
-        const { id } = params;
+        const { id } = await context.params;
 
         const [existing] = await pool.query('SELECT id FROM customer WHERE id = ?', [id]);
         if (existing.length === 0) {
@@ -71,3 +84,4 @@ export async function DELETE(request, { params }) {
         return NextResponse.json({ success: false, message: error.message }, { status: 500 });
     }
 }
+

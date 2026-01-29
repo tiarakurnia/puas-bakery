@@ -24,11 +24,19 @@ app.use(express.json());
 const produkRoutes = require('./routes/produk');
 const customerRoutes = require('./routes/customer');
 const transaksiRoutes = require('./routes/transaksi');
+const dashboardRoutes = require('./routes/dashboard');
+const pelunasanRoutes = require('./routes/pelunasan');
+const backupRoutes = require('./routes/backup');
+const jamOperasionalRoutes = require('./routes/jam-operasional');
 
 // Gunakan routes
 app.use('/api/produk', produkRoutes);
 app.use('/api/customer', customerRoutes);
 app.use('/api/transaksi', transaksiRoutes);
+app.use('/api/dashboard', dashboardRoutes);
+app.use('/api/pelunasan', pelunasanRoutes);
+app.use('/api/backup', backupRoutes);
+app.use('/api/jam-operasional', jamOperasionalRoutes);
 
 // Route default untuk cek server
 app.get('/', (req, res) => {

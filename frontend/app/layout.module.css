@@ -15,6 +15,9 @@
 .brand {
     padding: 1.5rem;
     border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .brand h2 {
@@ -22,6 +25,40 @@
     color: #d97706;
     font-size: 1.25rem;
 }
+
+.notificationBell {
+    position: relative;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.bellIcon {
+    font-size: 1.5rem;
+    transition: transform 0.3s;
+}
+
+.notificationBell:hover .bellIcon {
+    transform: rotate(15deg);
+}
+
+.badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #dc2626;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-weight: bold;
+}
+
 
 .nav {
     padding: 1rem;
