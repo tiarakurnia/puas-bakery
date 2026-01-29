@@ -159,6 +159,9 @@ export default function CustomerPage() {
                                             <td>{item.no_hp || '-'}</td>
                                             <td>{item.alamat || '-'}</td>
                                             <td>
+                                                <Link href={`/customer/${item.id}`} className={`${styles.btn} ${styles.btnView}`}>
+                                                    👁️ View
+                                                </Link>
                                                 <button className={`${styles.btn} ${styles.btnEdit}`} onClick={() => handleEdit(item)}>Edit</button>
                                                 <button className={`${styles.btn} ${styles.btnDelete}`} onClick={() => handleDelete(item.id)}>Hapus</button>
                                             </td>

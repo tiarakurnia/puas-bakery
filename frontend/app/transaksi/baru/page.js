@@ -23,7 +23,14 @@ export default function PesananBaruPage() {
 
     // Quick Add Customer State
     const [showModal, setShowModal] = useState(false);
-    const [newCustomer, setNewCustomer] = useState({ nama: '', no_hp: '', alamat: '' });
+    const [newCustomer, setNewCustomer] = useState({
+        nama: '',
+        no_hp: '',
+        alamat: '',
+        email: '',
+        catatan: '',
+        tag: ''
+    });
 
     useEffect(() => {
         fetchData();
@@ -61,17 +68,13 @@ export default function PesananBaruPage() {
                 const dataCust = await resCust.json();
                 if (dataCust.success) {
                     setCustomer(dataCust.data);
-                    // Auto select new customer (assuming new one is last or by ID if backend provided it, 
-                    // but re-fetching is safer order. Ideally backend returns ID of new customer)
-
-                    // Backend insert 'result.message' might not contain ID, so we pick the one matching name or just rely on user finding it. 
-                    // BETTER: find max ID
+                    // Auto select new customer
                     const maxId = Math.max(...dataCust.data.map(c => c.id));
                     setFormData({ ...formData, customer_id: maxId });
                 }
 
                 setShowModal(false);
-                setNewCustomer({ nama: '', no_hp: '', alamat: '' });
+                setNewCustomer({ nama: '', no_hp: '', alamat: '', email: '', catatan: '', tag: '' });
                 alert('Customer berhasil ditambahkan!');
             } else {
                 alert(result.message);
@@ -334,7 +337,7 @@ export default function PesananBaruPage() {
                         </div>
                         <form onSubmit={handleSaveCustomer}>
                             <div className={styles.formGroup}>
-                                <label>Nama Customer</label>
+                                <label>Nama Customer *</label>
                                 <input
                                     type="text"
                                     className={styles.input}
@@ -350,6 +353,17 @@ export default function PesananBaruPage() {
                                     className={styles.input}
                                     value={newCustomer.no_hp}
                                     onChange={(e) => setNewCustomer({ ...newCustomer, no_hp: e.target.value })}
+                                    placeholder="Contoh: 0812..."
+                                />
+                            </div>
+                            <div className={styles.formGroup}>
+                                <label>Email (Opsional)</label>
+                                <input
+                                    type="email"
+                                    className={styles.input}
+                                    value={newCustomer.email}
+                                    onChange={(e) => setNewCustomer({ ...newCustomer, email: e.target.value })}
+                                    placeholder="email@example.com"
                                 />
                             </div>
                             <div className={styles.formGroup}>
@@ -359,6 +373,28 @@ export default function PesananBaruPage() {
                                     value={newCustomer.alamat}
                                     onChange={(e) => setNewCustomer({ ...newCustomer, alamat: e.target.value })}
                                     rows="3"
+                                    style={{ resize: 'none' }}
+                                />
+                            </div>
+                            <div className={styles.formGroup}>
+                                <label>Tag/Label (Opsional)</label>
+                                <input
+                                    type="text"
+                                    className={styles.input}
+                                    value={newCustomer.tag}
+                                    onChange={(e) => setNewCustomer({ ...newCustomer, tag: e.target.value })}
+                                    placeholder="VIP, Reseller, dll"
+                                />
+                            </div>
+                            <div className={styles.formGroup}>
+                                <label>Catatan Khusus (Opsional)</label>
+                                <textarea
+                                    className={styles.input}
+                                    value={newCustomer.catatan}
+                                    onChange={(e) => setNewCustomer({ ...newCustomer, catatan: e.target.value })}
+                                    rows="2"
+                                    style={{ resize: 'none' }}
+                                    placeholder="Alergi, preferensi, dll"
                                 />
                             </div>
                             <button type="submit" className={`${styles.btn} ${styles.btnPrimary}`} style={{ width: '100%' }}>
