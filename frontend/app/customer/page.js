@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import styles from '../produk.module.css'; // Reuse product styles for consistency
 
 export default function CustomerPage() {

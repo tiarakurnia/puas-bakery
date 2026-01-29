@@ -34,7 +34,7 @@
 .card {
   background: white;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   padding: 1.5rem;
 }
 
@@ -67,7 +67,8 @@
 }
 
 .btnPrimary {
-  background: #d97706; /* Bakery brownish-orange */
+  background: #d97706;
+  /* Bakery brownish-orange */
   color: white;
 }
 
@@ -131,4 +132,49 @@
   padding: 1rem;
   border-radius: 4px;
   margin-bottom: 1rem;
+}
+
+/* Action buttons horizontal layout */
+.table td:last-child {
+  white-space: nowrap;
+}
+
+.table .btn {
+  display: inline-block;
+  padding: 0.4rem 0.8rem;
+  margin-right: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.table .btn:last-child {
+  margin-right: 0;
+}
+
+.btnView {
+  background-color: #3b82f6 !important;
+  color: white !important;
+  text-decoration: none;
+}
+
+.btnView:hover {
+  background-color: #2563eb !important;
+}
+
+.btnEdit {
+  background-color: #fbbf24 !important;
+  color: #78350f !important;
+}
+
+.btnEdit:hover {
+  background-color: #f59e0b !important;
+}
+
+.btnDelete {
+  background-color: #ef4444 !important;
+  color: white !important;
+}
+
+.btnDelete:hover {
+  background-color: #dc2626 !important;
 }
