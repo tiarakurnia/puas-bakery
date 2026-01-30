@@ -101,12 +101,16 @@ export default function SettingsPage() {
 
                 <div className={styles.formGroup}>
                     <label>Footer Struk</label>
-                    <input
-                        type="text"
+                    <textarea
                         value={formData.footer_struk}
                         onChange={(e) => setFormData({ ...formData, footer_struk: e.target.value })}
-                        placeholder="Terima Kasih Atas Pesanannya!"
+                        rows="4"
+                        placeholder="Terima Kasih Atas Kunjungannya,&#10;*** Affordable Cakes Not Cheap ***&#10;Kue Murah Tapi Bukan Murahan"
+                        style={{ resize: 'vertical', whiteSpace: 'pre-wrap' }}
                     />
+                    <small style={{ color: '#6b7280', fontSize: '0.85rem', marginTop: '0.3rem', display: 'block' }}>
+                        💡 Tekan Enter untuk buat baris baru pada struk
+                    </small>
                 </div>
 
                 <button type="submit" className={styles.btnSave}>

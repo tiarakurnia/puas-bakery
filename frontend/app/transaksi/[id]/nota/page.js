@@ -134,7 +134,11 @@ export default function NotaPage() {
                     {/* Footer */}
                     <div className={styles.footer}>
                         <div className={styles.separatorDouble} />
-                        <div className={styles.footerText}>{konfigurasi?.footer_struk || 'Terima Kasih Atas Pesanannya!'}</div>
+                        <div className={styles.footerText}>
+                            {(konfigurasi?.footer_struk || 'Terima Kasih Atas Pesanannya!').split('\n').map((line, idx) => (
+                                <div key={idx}>{line}</div>
+                            ))}
+                        </div>
                         <div className={styles.storeName}>~ {konfigurasi?.nama_toko || 'Puas Bakery'} ~</div>
                         <div className={styles.separatorDouble} />
                     </div>
