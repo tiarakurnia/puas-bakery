@@ -67,6 +67,11 @@ export default function NotaPage() {
                     {/* Header Toko */}
                     <div className={styles.header}>
                         <div className={styles.separatorDouble} />
+                        {konfigurasi?.logo_toko && (
+                            <div className={styles.logoContainer}>
+                                <img src={konfigurasi.logo_toko} alt="Logo" className={styles.logo} />
+                            </div>
+                        )}
                         <div className={styles.storeName}>{konfigurasi?.nama_toko || 'PUAS BAKERY'}</div>
                         <div className={styles.storeInfo}>{konfigurasi?.alamat_toko || '-'}</div>
                         <div className={styles.storeInfo}>Telp: {konfigurasi?.telepon_toko || '-'}</div>

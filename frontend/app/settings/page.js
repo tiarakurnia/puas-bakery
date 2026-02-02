@@ -8,7 +8,8 @@ export default function SettingsPage() {
         nama_toko: '',
         alamat_toko: '',
         telepon_toko: '',
-        footer_struk: 'Terima Kasih Atas Pesanannya!'
+        footer_struk: 'Terima Kasih Atas Pesanannya!',
+        logo_toko: null
     });
     const [loading, setLoading] = useState(true);
     const [message, setMessage] = useState('');
@@ -29,6 +30,44 @@ export default function SettingsPage() {
         } finally {
             setLoading(false);
         }
+    };
+
+    const handleLogoUpload = (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        // Validate file type
+        if (!file.type.startsWith('image/')) {
+            setMessage('❌ File harus berupa gambar (PNG, JPG, JPEG)');
+            setTimeout(() => setMessage(''), 3000);
+            return;
+        }
+
+        // Validate file size (max 200KB)
+        if (file.size > 200 * 1024) {
+            setMessage('❌ Ukuran logo maksimal 200KB. Silakan kompres gambar terlebih dahulu.');
+            setTimeout(() => setMessage(''), 3000);
+            return;
+        }
+
+        // Convert to base64
+        const reader = new FileReader();
+        reader.onload = () => {
+            setFormData({ ...formData, logo_toko: reader.result });
+            setMessage('✅ Logo berhasil dipilih! Jangan lupa klik Simpan.');
+            setTimeout(() => setMessage(''), 3000);
+        };
+        reader.onerror = () => {
+            setMessage('❌ Gagal membaca file');
+            setTimeout(() => setMessage(''), 3000);
+        };
+        reader.readAsDataURL(file);
+    };
+
+    const handleRemoveLogo = () => {
+        setFormData({ ...formData, logo_toko: null });
+        setMessage('✅ Logo dihapus. Jangan lupa klik Simpan.');
+        setTimeout(() => setMessage(''), 3000);
     };
 
     const handleSubmit = async (e) => {
@@ -110,6 +149,33 @@ export default function SettingsPage() {
                     />
                     <small style={{ color: '#6b7280', fontSize: '0.85rem', marginTop: '0.3rem', display: 'block' }}>
                         💡 Tekan Enter untuk buat baris baru pada struk
+                    </small>
+                </div>
+
+                <div className={styles.formGroup}>
+                    <label>Logo Toko (Opsional)</label>
+
+                    {formData.logo_toko && (
+                        <div className={styles.logoPreview}>
+                            <img src={formData.logo_toko} alt="Logo Preview" />
+                            <button
+                                type="button"
+                                onClick={handleRemoveLogo}
+                                className={styles.btnRemoveLogo}
+                            >
+                                ✖ Hapus Logo
+                            </button>
+                        </div>
+                    )}
+
+                    <input
+                        type="file"
+                        accept="image/png,image/jpeg,image/jpg"
+                        onChange={handleLogoUpload}
+                        className={styles.fileInput}
+                    />
+                    <small style={{ color: '#6b7280', fontSize: '0.85rem', marginTop: '0.3rem', display: 'block' }}>
+                        📸 Format: PNG, JPG, JPEG | Ukuran maks: 200KB | Rekomendasi: 200x200px
                     </small>
                 </div>
 
